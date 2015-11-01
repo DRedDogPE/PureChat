@@ -196,7 +196,7 @@ class PureChat extends PluginBase
                 $this->saveConfig();
             }
 
-            if(!$this->factionsPro->getSession($player)->isInFaction())
+            if(!$this->factionsPro->getSession($player)->inFaction())
             {
                 $nameTag = str_replace("{faction}", $this->getConfig()->getNested("custom-no-fac-message"), $nameTag);
             }
