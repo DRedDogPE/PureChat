@@ -118,24 +118,30 @@ class PureChat extends PluginBase
                 $this->saveConfig();
             }
 
-            if(!$this->factionsPro->isInFaction($player->getName()))
+            if(!$this->factionsPro->getSession($player)->inFaction())
             {
                 $chatFormat = str_replace("{faction}", $this->getConfig()->getNested("custom-no-fac-message"), $chatFormat);
             }
 
-            if($this->factionsPro->isLeader($player->getName()))
+            if($this->factionsPro->getSession($player)->isLeader())
             {
-                $chatFormat = str_replace("{faction}", "**" . $this->factionsPro->getPlayerFaction($player->getName()), $chatFormat);
+                $chatFormat = str_replace("{faction}", "**" . $this->factionsPro->getSession($player)->getFactionName(), $chatFormat);
             }
-            elseif($this->factionsPro->isOfficer($player->getName()))
+            elseif($this->factionsPro->getSession($player)->isOfficer())
             {
-                $chatFormat = str_replace("{faction}", "*" . $this->factionsPro->getPlayerFaction($player->getName()), $chatFormat);
+                $chatFormat = str_replace("{faction}", "*" . $this->factionsPro->getSession($player)->getFactionName(), $chatFormat);
             }
             else
             {
-                $chatFormat = str_replace("{faction}", "" . $this->factionsPro->getPlayerFaction($player->getName()), $chatFormat);
+                $chatFormat = str_replace("{faction}", "" . $this->factionsPro->getSession($player)->getFactionName(), $chatFormat);
             }
         }
+		
+        if($this->factionsPro === null)
+        {
+			$chatFormat = str_replace("{faction}", "", $chatFormat);
+        }
+
 
         $chatFormat = str_replace("{world_name}", $levelName, $chatFormat);
         $chatFormat = str_replace("{display_name}", $player->getDisplayName(), $chatFormat);
@@ -190,23 +196,28 @@ class PureChat extends PluginBase
                 $this->saveConfig();
             }
 
-            if(!$this->factionsPro->isInFaction($player->getName()))
+            if(!$this->factionsPro->getSession($player)->isInFaction())
             {
                 $nameTag = str_replace("{faction}", $this->getConfig()->getNested("custom-no-fac-message"), $nameTag);
             }
 
-            if($this->factionsPro->isLeader($player->getName()))
+            if($this->factionsPro->getSession($player)->isLeader())
             {
-                $nameTag = str_replace("{faction}", "**" . $this->factionsPro->getPlayerFaction($player->getName()), $nameTag);
+                $nameTag = str_replace("{faction}", "**" . $this->factionsPro->getSession($player)->getFactionName(), $nameTag);
             }
-            elseif($this->factionsPro->isOfficer($player->getName()))
+            elseif($this->factionsPro->getSession($player)->isOfficer())
             {
-                $nameTag = str_replace("{faction}", "*" . $this->factionsPro->getPlayerFaction($player->getName()), $nameTag);
+                $nameTag = str_replace("{faction}", "*" . $this->factionsPro->getSession($player)->getFactionName(), $nameTag);
             }
             else
             {
-                $nameTag = str_replace("{faction}", "" . $this->factionsPro->getPlayerFaction($player->getName()), $nameTag);
+                $nameTag = str_replace("{faction}", "" . $this->factionsPro->getSession($player)->getFactionName(), $nameTag);
             }
+        }
+		
+        if($this->factionsPro === null)
+        {
+			$chatFormat = str_replace("{faction}", "", $chatFormat);
         }
 
         $nameTag = str_replace("{world_name}", $levelName, $nameTag);
